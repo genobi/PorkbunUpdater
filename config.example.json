@@ -1,0 +1,10 @@
+[
+    {
+        "_comment": "This would update testsubdomain.example.com, setting the A record to the current public IP",
+        "domain": "example.com",
+        "subdomain": "testsubdomain",
+        "api_key": "key",
+        "secret_api_key": "secret_key",
+        "dns_type": "A"
+    }
+]

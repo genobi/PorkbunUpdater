@@ -1,7 +1,6 @@
 //Includes
 const https = require('https');
 const { readFileSync } = require('fs');
-const internal = require('stream');
 
 //Config
 const interval = 60 * 60 * 1000;

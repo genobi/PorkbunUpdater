@@ -53,12 +53,12 @@ const timer = setInterval(() => {
                     log("IP Address matches Porkbun already",1);
                 } else {
                     log("IP Address does not match Porkbun",1);
+                    let update_result = updateDNS(porkbun_settings, entry, ip_addr);
+                    update_result.catch( err => {log(err, 4)})
                 }
-                //let update_result = updateDNS(porkbun_settings, entry, ip_addr);
-                //update_result.catch( err => {log(err, 4)})
             }
         } else {
-            log("IP Address has not change. " + ip_address, 1);
+            log("IP Address has not changed. " + ip_address, 1);
         }
     })
 }, interval)

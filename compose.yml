@@ -1,0 +1,3 @@
+services:
+    pull_app:
+      image: node

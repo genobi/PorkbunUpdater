@@ -4,7 +4,7 @@ const { readFileSync } = require('fs');
 const internal = require('stream');
 
 //Config
-const interval = 1 * 60 * 1000;
+const interval = 60 * 60 * 1000;
 const porkbun_settings = {
     host: "porkbun.com",
     update_by_type_path: "/api/json/v3/dns/editByNameType/",

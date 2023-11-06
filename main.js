@@ -3,22 +3,23 @@ const https = require('https');
 const { readFileSync } = require('fs');
 
 //Config
-const interval = 60 * 60 * 1000;
+var interval = 60 * 60 * 1000;
 const porkbun_settings = {
     host: "porkbun.com",
     update_by_type_path: "/api/json/v3/dns/editByNameType/",
     check_by_type_path: "/api/json/v3/dns/retrieveByNameType/"
 };
-const file_location = "/data/porkbun_updater/config.json";
-const log_level = 1;
+var file_location = "/data/porkbun_updater/config.json";
+var log_level = 1;
 var ip_address = "0.0.0.0";
 
 //update properties if defined in ENV
 if (typeof process.env.CHECK_INTERVAL != "undefined") {
-    const interval = process.env.CHECK_INTERVAL;
+    interval = process.env.CHECK_INTERVAL;
 }
+console.log(process.env.CONFIG_FILE);
 if (typeof process.env.CONFIG_FILE != "undefined") {
-    const file_location = process.env.CONFIG_FILE;
+    file_location = process.env.CONFIG_FILE;
 }
 if (typeof process.env.PORTBUN_HOST != "undefined") {
     porkbun_settings.host = process.env.PORTBUN_HOST;

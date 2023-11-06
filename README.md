@@ -5,7 +5,7 @@ This is a updater for Porkbun that will update dns entries to the public IP addr
 This should come ready to do. It only uses the built in node libraries, so there is nothing to update other than node.
 
 ## Config File
-This uses a config file to determin what to update. It is a JSON file that stores an array of targets. It is stored one folder up from the executable to keep the secrets out of git, etc. 
+This uses a config file to determin what to update. It is a JSON file that stores an array of targets. The location of the file needs to be set to the "CONFIG_FILE" environmental variable. 
 
 ### Config Example
 ```
@@ -22,4 +22,4 @@ This uses a config file to determin what to update. It is a JSON file that store
 ```
 
 ## Docker
-This was built to go into docker, but it can run outside of it.
+Now a [Docker container!](https://hub.docker.com/repository/docker/genobi/porkbunupdater)

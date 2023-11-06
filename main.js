@@ -17,7 +17,6 @@ var ip_address = "0.0.0.0";
 if (typeof process.env.CHECK_INTERVAL != "undefined") {
     interval = process.env.CHECK_INTERVAL;
 }
-console.log(process.env.CONFIG_FILE);
 if (typeof process.env.CONFIG_FILE != "undefined") {
     file_location = process.env.CONFIG_FILE;
 }

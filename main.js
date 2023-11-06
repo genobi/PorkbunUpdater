@@ -9,7 +9,7 @@ const porkbun_settings = {
     update_by_type_path: "/api/json/v3/dns/editByNameType/",
     check_by_type_path: "/api/json/v3/dns/retrieveByNameType/"
 };
-const file_location = "../config.json";
+const file_location = "/data/porkbun_updater/config.json";
 const log_level = 1;
 var ip_address = "0.0.0.0";
 
@@ -34,7 +34,12 @@ if (typeof process.env.LOG_LEVEL != "undefined") {
 }
 
 //Every Interval, check for an IP, if it unchanged from last time, dont do anything, If it changes check Porkbun first to see if it already matches, else update Porkbun.
-const timer = setInterval(() => {
+//First Run
+dnsUpdate();
+//Then run at intervals
+const timer = setInterval(dnsUpdate, interval)
+
+function dnsUpdate() {
     const ip = getPublicIP();
     ip.then((ip_addr) => {
         if (ip_address != ip_addr) {
@@ -60,7 +65,7 @@ const timer = setInterval(() => {
             log("IP Address has not changed. " + ip_address, 1);
         }
     })
-}, interval)
+}
 
 /**
  * Returns the public IP of the device running this code. Uses the ipify.org API.

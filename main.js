@@ -33,12 +33,19 @@ if (typeof process.env.LOG_LEVEL != "undefined") {
     log_level = process.env.LOG_LEVEL;
 }
 
+//bad hack to hold promises while they resolve. We declare here so it does not get collected.
+var promises = [];
+var promise_manager;
+
 //Every Interval, check for an IP, if it unchanged from last time, dont do anything, If it changes check Porkbun first to see if it already matches, else update Porkbun.
 //First Run
 dnsUpdate();
 //Then run at intervals
 const timer = setInterval(dnsUpdate, interval)
 
+/**
+ * Main function that is called by the timer. Takes no arguments, returns no values
+ */
 function dnsUpdate() {
     const ip = getPublicIP();
     ip.then((ip_addr) => {
@@ -53,17 +60,26 @@ function dnsUpdate() {
                 return;
             }
             for (const entry of dns_entries) {
-                if(checkDNS(porkbun_settings, entry, ip_addr)){
-                    log("IP Address matches Porkbun already",1);
-                } else {
-                    log("IP Address does not match Porkbun",1);
-                    let update_result = updateDNS(porkbun_settings, entry, ip_addr);
-                    update_result.catch( err => {log(err, 4)})
-                }
+                const dnsCheck = checkDNS(porkbun_settings, entry, ip_addr).then((same) => {
+                    if(same){
+                        log("IP Address matches Porkbun already",1);
+                    } else {
+                        log("IP Address does not match Porkbun",1);
+                        let update_result = updateDNS(porkbun_settings, entry, ip_addr);
+                        update_result.catch( err => {log(err, 4)})
+                    }
+                });
+                promises.push(dnsCheck);
             }
         } else {
             log("IP Address has not changed. " + ip_address, 1);
         }
+
+        //We need to manually garbage collect the promises to prevent a memory leak
+        promise_manager = Promise.all(promises);
+        promise_manager.then(() => {
+            promises = []
+        })
     })
 }
 
